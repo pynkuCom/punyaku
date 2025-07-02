@@ -1,0 +1,479 @@
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rekapan Pay by Mang Warz</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Orbitron:wght@700&display=swap');
+
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #0f172a;
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Particle canvas */
+    #particles-js {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Container */
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 480px;
+      width: 100%;
+      padding: 40px 30px 50px;
+      background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(30,41,59,0.9));
+      border-radius: 16px;
+      box-shadow: 0 0 30px rgba(34,197,94,0.6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Header text */
+    .header-line1 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 2.5rem;
+      background: linear-gradient(90deg, #3b82f6, #2563eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      user-select: none;
+      line-height: 1.1;
+      margin-bottom: 6px;
+      text-shadow: 0 0 8px rgba(59, 130, 246, 0.7);
+      width: 100%;
+    }
+    .header-line2 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 3.75rem;
+      background: linear-gradient(90deg, #22c55e, #16a34a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      user-select: none;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      text-shadow: 0 0 12px rgba(34, 197, 94, 0.9);
+      width: 100%;
+    }
+
+    /* Form styles */
+    form {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px 16px;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      width: 140px;
+      max-width: 100%;
+      text-align: left;
+    }
+    label {
+      margin-bottom: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      user-select: none;
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1.5px solid #475569;
+      background-color: #1e293b;
+      color: white;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+    }
+    input[type="text"]::placeholder {
+      color: #64748b;
+      text-align: center;
+    }
+    input[type="text"]:focus, select:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 8px #2563eb;
+      background-color: #334155;
+    }
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, white 50%),
+        linear-gradient(135deg, white 50%, transparent 50%),
+        linear-gradient(to right, #475569, #475569);
+      background-position:
+        calc(100% - 20px) calc(1em + 2px),
+        calc(100% - 15px) calc(1em + 2px),
+        calc(100% - 25px) 1em;
+      background-size: 5px 5px, 5px 5px, 1px 1.5em;
+      background-repeat: no-repeat;
+      cursor: pointer;
+      text-align-last: center;
+    }
+
+    /* Button */
+    button {
+      background-color: #2563eb;
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 14px 0;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background-color 0.3s ease;
+      font-family: 'Poppins', sans-serif;
+      user-select: none;
+      width: 100%;
+      max-width: 480px;
+      margin-top: 10px;
+    }
+    button i {
+      font-size: 1.2rem;
+    }
+    button:hover:not(:disabled) {
+      background-color: #1e40af;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Notification text only */
+    #notification {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 90vw;
+      width: 360px;
+      background: rgba(34, 197, 94, 0.95);
+      border-radius: 16px;
+      padding: 1.5rem 1.5rem;
+      box-shadow: 0 0 30px rgba(34,197,94,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      user-select: none;
+      font-weight: 700;
+      font-size: 1.125rem;
+      text-align: center;
+      line-height: 1.4;
+      letter-spacing: 0.05em;
+      color: white;
+      text-shadow: 0 0 6px rgba(0,0,0,0.3);
+      white-space: pre-line;
+    }
+    #notification.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Chat total display */
+    #chatTotal {
+      margin-top: 6px;
+      font-size: 0.95rem;
+      color: #86efac;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      user-select: none;
+      text-align: center;
+      min-height: 1.3em;
+      letter-spacing: 0.03em;
+      text-shadow: 0 0 4px rgba(22, 163, 74, 0.8);
+    }
+
+    /* Responsive */
+    @media (max-width: 520px) {
+      .container {
+        max-width: 90vw;
+        padding: 30px 15px 50px;
+      }
+      .header-line1 {
+        font-size: 2rem;
+      }
+      .header-line2 {
+        font-size: 3rem;
+      }
+      form {
+        gap: 16px 12px;
+      }
+      .form-group {
+        width: 100%;
+      }
+      button {
+        max-width: 100%;
+      }
+      #chatTotal {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+
+  <div class="container" role="main" aria-label="Form Rekapan Pembayaran">
+    <header aria-label="Judul Halaman">
+      <div class="header-line1">REKAPAN PAYMENT</div>
+    </header>
+
+    <form id="paymentForm" autocomplete="off" novalidate>
+      <div class="form-group">
+        <label for="chat">Total Chat</label>
+        <input
+          type="text"
+          id="chat"
+          name="chat"
+          placeholder="Masukkan total chat"
+          required
+          pattern="^\d{1,4}$"
+          inputmode="numeric"
+          maxlength="4"
+          aria-required="true"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+        />
+        <div id="chatTotal" aria-live="polite" aria-atomic="true"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="payNumber">Nomor Pembayaran</label>
+        <input
+          type="text"
+          id="payNumber"
+          name="payNumber"
+          placeholder="Masukkan nomor pembayaran"
+          required
+          pattern="^\d{1,20}$"
+          inputmode="numeric"
+          aria-required="true"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="payName">Nama Penerima Pay</label>
+        <input
+          type="text"
+          id="payName"
+          name="payName"
+          placeholder="Masukkan nama penerima"
+          required
+          aria-required="true"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="words"
+          spellcheck="false"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="paymentMethod">Pilih Dana</label>
+        <select id="paymentMethod" name="paymentMethod" required aria-required="true">
+          <option value="" disabled selected>Pilih metode pembayaran</option>
+          <option value="DANA">DANA</option>
+          <option value="GOPAY">GOPAY</option>
+          <option value="BRI">BRI</option>
+          <option value="BCA">BCA</option>
+        </select>
+      </div>
+
+      <button type="submit" aria-label="Kirim Pembayaran">
+        <i class="fas fa-paper-plane" aria-hidden="true"></i> Kirim Pembayaran
+      </button>
+    </form>
+  </div>
+
+  <div id="notification" role="alert" aria-live="polite" aria-atomic="true" tabindex="-1"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+  <script>
+    // Initialize particles.js
+    window.onload = function () {
+      particlesJS('particles-js', {
+        particles: {
+          number: { value: 80, density: { enable: true, value_area: 800 } },
+          color: { value: '#3b82f6' },
+          shape: { type: 'circle' },
+          opacity: { value: 0.5, random: false },
+          size: { value: 3, random: true },
+          line_linked: {
+            enable: true,
+            distance: 150,
+            color: '#3b82f6',
+            opacity: 0.4,
+            width: 1,
+          },
+          move: {
+            enable: true,
+            speed: 2,
+            direction: 'none',
+            random: false,
+            straight: false,
+            out_mode: 'out',
+            bounce: false,
+            attract: { enable: false },
+          },
+        },
+        interactivity: {
+          detect_on: 'canvas',
+          events: {
+            onhover: { enable: true, mode: 'grab' },
+            onclick: { enable: true, mode: 'push' },
+            resize: true,
+          },
+          modes: {
+            grab: { distance: 140, line_linked: { opacity: 1 } },
+            bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+            repulse: { distance: 200, duration: 0.4 },
+            push: { particles_nb: 4 },
+            remove: { particles_nb: 2 },
+          },
+        },
+        retina_detect: true,
+      });
+    };
+
+    const botToken = '8194287512:AAGP7YlwUl8Ato5av7pH7_BpkL41q11IKD4';
+    const chatId = '6310487830';
+
+    const form = document.getElementById('paymentForm');
+    const notification = document.getElementById('notification');
+    const chatInput = form.chat;
+    const payNumberInput = form.payNumber;
+    const payNameInput = form.payName;
+    const paymentMethodSelect = form.paymentMethod;
+    const chatTotalDisplay = document.getElementById('chatTotal');
+
+    // Show calculation below chat input: "2 x 300 = Rp 400"
+    chatInput.addEventListener('input', () => {
+      let val = chatInput.value.replace(/\D/g, '').slice(0, 4);
+      chatInput.value = val;
+
+      if (val.length > 0) {
+        const total = Number(val) * 300;
+        chatTotalDisplay.textContent = `${val} x 300 = Rp ${total.toLocaleString('id-ID')}`;
+      } else {
+        chatTotalDisplay.textContent = '';
+      }
+    });
+
+    // Restrict payNumber input to digits only, max 20
+    payNumberInput.addEventListener('input', () => {
+      let val = payNumberInput.value.replace(/\D/g, '').slice(0, 20);
+      payNumberInput.value = val;
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const chat = chatInput.value.trim();
+      const payNumber = payNumberInput.value.trim();
+      const payName = payNameInput.value.trim();
+      const paymentMethod = paymentMethodSelect.value;
+      const totalPrice = Number(chat) * 300;
+
+      const message = `----- REKPAN BARU JURAGAN -----
+• Total Chat : ${chat}
+• Harga Transfer : Rp ${totalPrice.toLocaleString('id-ID')}
+• Nomor Payment : ${payNumber}
+• Nama Payment : ${payName}
+• Metode payment : ${paymentMethod}
+
+⚠ WARNING ⚠
+Main amanah ya juragan walopun nominal kecil main amanah aja,karena amanah kunci kesuksesan`;
+
+      try {
+        const submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+
+        const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+        const params = new URLSearchParams({
+          chat_id: chatId,
+          text: message,
+          parse_mode: 'HTML',
+        });
+
+        const response = await fetch(`${url}?${params.toString()}`, {
+          method: 'GET',
+        });
+
+        if (!response.ok) throw new Error('Gagal mengirim pesan ke Telegram.');
+
+        notification.textContent = 'PAY BERHASIL DI TAMBAH KAN KE LIST PAY\nTUNGGU OWNER UNTUK MENTRANSFER HARAP SABAR';
+        notification.classList.add('show');
+        notification.focus();
+        form.reset();
+        chatTotalDisplay.textContent = '';
+
+        setTimeout(() => {
+          notification.classList.remove('show');
+          submitBtn.disabled = false;
+          notification.textContent = '';
+        }, 4000);
+      } catch (error) {
+        alert('Terjadi kesalahan saat mengirim data. Silakan coba lagi.');
+        const submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
